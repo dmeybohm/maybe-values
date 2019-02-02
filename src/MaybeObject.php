@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace Best\NonExistentOrNullable;
+namespace Best\Maybe;
 
-final class NonExistentOrNullableInt extends NonExistentOrNullableValue
+final class MaybeObject extends MaybeValue
 {
     /**
-     * NonExistentOrNullableString constructor.
+     * MaybeString constructor.
      *
      * @param bool $existent
-     * @param int|null $value
+     * @param object|null $value
      */
-    protected function __construct(bool $existent, ?int $value)
+    protected function __construct(bool $existent, ?object $value)
     {
         $this->existent = $existent;
         $this->value = $value;
@@ -19,13 +19,13 @@ final class NonExistentOrNullableInt extends NonExistentOrNullableValue
     /**
      * Get the value.
      *
-     * Note this will throw an exception if you try to get the value and it's nonexistent or null.
+     * Note this will throw an exception if you try to get the value and it's NotPresent or null.
      *
      * So you have to check the value is present before getting the value.
      *
-     * @return int
+     * @return object
      */
-    public function getValue(): int
+    public function getValue(): object
     {
         return $this->value;
     }
@@ -33,9 +33,9 @@ final class NonExistentOrNullableInt extends NonExistentOrNullableValue
     /**
      * Get the value, or return null if the value is non-existent or null.
      *
-     * @return int|null
+     * @return object|null
      */
-    public function getValueOrNull(): ?int
+    public function getValueOrNull(): ?object
     {
         return $this->existent && $this->value !== null ? $this->value : null;
     }

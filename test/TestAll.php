@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Best\NonExistentOrNullable\Test;
+namespace Best\Maybe\Test;
 
-use Best\NonExistentOrNullable\NonExistentOrNullableString;
+use Best\Maybe\MaybeString;
 
 class TestAll extends \PHPUnit\Framework\TestCase
 {
@@ -13,20 +13,34 @@ class TestAll extends \PHPUnit\Framework\TestCase
             'null' => null,
         ];
 
-        $nonNull = NonExistentOrNullableString::fromArrayAndStringKey($foo, 'non-null');
-        $null = NonExistentOrNullableString::fromArrayAndStringKey($foo, 'null');
-        $nonExistent = NonExistentOrNullableString::fromArrayAndStringKey($foo, 'non-existent');
+        $nonNull = MaybeString::fromArrayAndStringKey($foo, 'non-null');
+        $null = MaybeString::fromArrayAndStringKey($foo, 'null');
+        $nonExistent = MaybeString::fromArrayAndStringKey($foo, 'non-existent');
 
-        $this->assertSame(true, $nonNull->isExistentAndNotNull());
-        $this->assertSame(false, $nonNull->isNonExistent());
-        $this->assertSame(false, $nonNull->isNonExistentOrNull());
+        $this->assertSame(true, $nonNull->isPresentAndNotNull());
+        $this->assertSame(false, $nonNull->isMissing());
+        $this->assertSame(false, $nonNull->isMissingOrNull());
         $this->assertSame('non-null value', $nonNull->getValue());
         $this->assertSame('non-null value', $nonNull->getValueOrNull());
 
-        $this->assertSame(false, $null->isExistentAndNotNull());
-        $this->assertSame(false, $null->isNonExistent());
-        $this->assertSame(true, $null->isNonExistentOrNull());
+        $this->assertSame(false, $null->isPresentAndNotNull());
+        $this->assertSame(false, $null->isMissing());
+        $this->assertSame(true, $null->isMissingOrNull());
         $this->assertSame(null, $null->getValueOrNull());
+
+        $this->assertSame(false, $nonExistent->isPresentAndNotNull());
+        $this->assertSame(true, $nonExistent->isMissing());
+        $this->assertSame(true, $nonExistent->isMissingOrNull());
+        $this->assertSame(null, $nonExistent->getValueOrNull());
     }
+
+//    public function testNonExistentOrNullableStringThrowsExceptionWhenGettingValueOfNonExistent()
+//    {
+//    }
+//
+//    public function testNonExistentOrNullableStringThrowsExceptionWhenGettingValueOfNull()
+//    {
+//
+//    }
 
 }

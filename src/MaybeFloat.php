@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace Best\NonExistentOrNullable;
+namespace Best\Maybe;
 
-final class NonExistentOrNullableArray extends NonExistentOrNullableValue
+final class MaybeFloat extends MaybeValue
 {
     /**
-     * NonExistentOrNullableString constructor.
+     * MaybeString constructor.
      *
      * @param bool $existent
-     * @param array|null $value
+     * @param float|null $value
      */
-    protected function __construct(bool $existent, ?array $value)
+    protected function __construct(bool $existent, ?float $value)
     {
         $this->existent = $existent;
         $this->value = $value;
@@ -19,13 +19,13 @@ final class NonExistentOrNullableArray extends NonExistentOrNullableValue
     /**
      * Get the value.
      *
-     * Note this will throw an exception if you try to get the value and it's nonexistent or null.
+     * Note this will throw an exception if you try to get the value and it's NotPresent or null.
      *
      * So you have to check the value is present before getting the value.
      *
-     * @return array
+     * @return float
      */
-    public function getValue(): array
+    public function getValue(): float
     {
         return $this->value;
     }
@@ -33,9 +33,9 @@ final class NonExistentOrNullableArray extends NonExistentOrNullableValue
     /**
      * Get the value, or return null if the value is non-existent or null.
      *
-     * @return array|null
+     * @return float|null
      */
-    public function getValueOrNull(): ?array
+    public function getValueOrNull(): ?float
     {
         return $this->existent && $this->value !== null ? $this->value : null;
     }

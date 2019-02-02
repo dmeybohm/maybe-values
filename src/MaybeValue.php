@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Best\NonExistentOrNullable;
+namespace Best\Maybe;
 
-abstract class NonExistentOrNullableValue
+abstract class MaybeValue
 {
     /**
      * The value.
@@ -26,14 +26,14 @@ abstract class NonExistentOrNullableValue
     abstract public function getValue();
 
     /**
-     * Get the value, or return null if the value is nonexistent or null.
+     * Get the value, or return null if the value is NotPresent or null.
      *
      * @return mixed
      */
     abstract public function getValueOrNull();
 
     /**
-     * Create a new NonExistentOrNullableString from an array and string key.
+     * Create a new MaybeString from an array and string key.
      *
      * @param array $array
      * @param string $key
@@ -46,12 +46,12 @@ abstract class NonExistentOrNullableValue
     }
 
     /**
-     * Create a new NonExistentOrNullableString from an array and string key.
+     * Create a new MaybeString from an array and string key.
      *
      * @param array $array
      * @param int $key
      *
-     * @return NonExistentOrNullableValue
+     * @return MaybeValue
      */
     public static function fromArrayAndIntKey(array $array, int $key): self
     {
@@ -59,11 +59,11 @@ abstract class NonExistentOrNullableValue
     }
 
     /**
-     * Whether the value is nonexistent or null.
+     * Whether the value is NotPresent or null.
      *
      * @return bool
      */
-    public function isNonExistentOrNull(): bool
+    public function isMissingOrNull(): bool
     {
         return !$this->existent || $this->value === null;
     }
@@ -73,11 +73,11 @@ abstract class NonExistentOrNullableValue
      *
      * @return bool
      */
-    public function isExistentAndNotNull(): bool
+    public function isPresentAndNotNull(): bool
     {
         return $this->existent && $this->value !== null;
     }
-
+ 
     /**
      * Whether the value is null.
      *
@@ -89,11 +89,11 @@ abstract class NonExistentOrNullableValue
     }
 
     /**
-     * Whether the value is nonexistent.
+     * Whether the value is NotPresent.
      *
      * @return bool
      */
-    public function isNonExistent(): bool
+    public function isMissing(): bool
     {
         return !$this->existent;
     }
@@ -103,7 +103,7 @@ abstract class NonExistentOrNullableValue
      *
      * @return bool
      */
-    public function isExistent(): bool
+    public function isPresent(): bool
     {
         return $this->existent;
     }

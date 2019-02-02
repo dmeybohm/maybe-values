@@ -1,5 +1,5 @@
 {
-  "name": "best/nonexistent-or-null-values",
+  "name": "best/maybe-values",
   "description": "Classes representing non-existent or null values",
   "minimum-stability": "stable",
   "license": "apache",
@@ -17,12 +17,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Best\\NonExistentOrNullable\\": "src/"
+      "Best\\Maybe\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Best\\NonExistentOrNullable\\Test\\": "test/"
+      "Best\\Maybe\\Test\\": "test/"
     }
   }
 }
