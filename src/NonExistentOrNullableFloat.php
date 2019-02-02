@@ -33,7 +33,7 @@ final class NonExistentOrNullableFloat extends NonExistentOrNullableValue
     /**
      * Get the value, or return null if the value is non-existent or null.
      *
-     * @return bool|null
+     * @return float|null
      */
     public function getValueOrNull(): ?float
     {

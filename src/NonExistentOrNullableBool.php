@@ -33,7 +33,7 @@ final class NonExistentOrNullableBool extends NonExistentOrNullableValue
     /**
      * Get the value, or return null if the value is non-existent or null.
      *
-     * @return bool|null
+     * @return array|null
      */
     public function getValueOrNull(): ?bool
     {

@@ -18,7 +18,18 @@ abstract class NonExistentOrNullableValue
      */
     protected $existent;
 
+    /**
+     * Get the value. Throws an exception if the value is an unexpected type, or is null.
+     *
+     * @return mixed
+     */
     abstract public function getValue();
+
+    /**
+     * Get the value, or return null if the value is nonexistent or null.
+     *
+     * @return mixed
+     */
     abstract public function getValueOrNull();
 
     /**
@@ -29,7 +40,7 @@ abstract class NonExistentOrNullableValue
      *
      * @return static
      */
-    public function fromArrayAndStringKey(array $array, string $key): self
+    public static function fromArrayAndStringKey(array $array, string $key): self
     {
         return new static(array_key_exists($key, $array), $array[$key] ?? null);
     }
@@ -42,7 +53,7 @@ abstract class NonExistentOrNullableValue
      *
      * @return NonExistentOrNullableValue
      */
-    public function fromArrayAndIntKey(array $array, int $key): self
+    public static function fromArrayAndIntKey(array $array, int $key): self
     {
         return new static(array_key_exists($key, $array), $array[$key] ?? null);
     }

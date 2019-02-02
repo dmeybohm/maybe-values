@@ -2,15 +2,15 @@
 
 namespace Best\NonExistentOrNullable;
 
-final class NonExistentOrNullableArray extends NonExistentOrNullableValue
+final class NonExistentOrNullableInt extends NonExistentOrNullableValue
 {
     /**
      * NonExistentOrNullableString constructor.
      *
      * @param bool $existent
-     * @param array|null $value
+     * @param int|null $value
      */
-    protected function __construct(bool $existent, ?array $value)
+    protected function __construct(bool $existent, ?int $value)
     {
         $this->existent = $existent;
         $this->value = $value;
@@ -23,9 +23,9 @@ final class NonExistentOrNullableArray extends NonExistentOrNullableValue
      *
      * So you have to check the value is present before getting the value.
      *
-     * @return array
+     * @return int
      */
-    public function getValue(): array
+    public function getValue(): int
     {
         return $this->value;
     }
@@ -33,9 +33,9 @@ final class NonExistentOrNullableArray extends NonExistentOrNullableValue
     /**
      * Get the value, or return null if the value is non-existent or null.
      *
-     * @return array|null
+     * @return int|null
      */
-    public function getValueOrNull(): ?array
+    public function getValueOrNull(): ?int
     {
         return $this->existent && $this->value !== null ? $this->value : null;
     }
