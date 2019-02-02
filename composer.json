@@ -1,0 +1,25 @@
+{
+  "name": "best/nonexistent-or-null-values",
+  "description": "Classes representing non-existent or null values",
+  "minimum-stability": "stable",
+  "license": "apache",
+  "authors": [
+    {
+      "name": "David Meybohm",
+      "email": "dmeybohm@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Best\\NonExistentOrNullable\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Best\\NonExistentOrNullable\\Test\\": "test/"
+    }
+  }
+}
