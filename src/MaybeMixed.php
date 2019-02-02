@@ -1,18 +1,18 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace Best\Maybe;
 
-final class MaybeInt implements MaybeValue
+final class MaybeMixed implements MaybeValue
 {
     use MaybeTrait;
 
     /**
-     * MaybeInt constructor.
+     * MaybeString constructor.
      *
      * @param bool $present
-     * @param int|null $value
+     * @param mixed $value
      */
-    protected function __construct(bool $present, ?int $value)
+    protected function __construct(bool $present, $value)
     {
         $this->present = $present;
         $this->value = $value;
@@ -25,9 +25,9 @@ final class MaybeInt implements MaybeValue
      *
      * So you have to check the value is present before getting the value.
      *
-     * @return int
+     * @return mixed
      */
-    public function getValue(): int
+    public function getValue()
     {
         return $this->value;
     }
@@ -35,11 +35,10 @@ final class MaybeInt implements MaybeValue
     /**
      * Get the value, or return null if the value is non-existent or null.
      *
-     * @return int|null
+     * @return mixed
      */
-    public function getValueOrNull(): ?int
+    public function getValueOrNull()
     {
-        return $this->present && $this->value !== null ? $this->value : null;
+        return $this->value;
     }
-
 }

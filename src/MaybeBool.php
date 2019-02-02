@@ -2,24 +2,26 @@
 
 namespace Best\Maybe;
 
-final class MaybeBool extends MaybeValue
+final class MaybeBool implements MaybeValue
 {
+    use MaybeTrait;
+
     /**
-     * MaybeString constructor.
+     * MaybeBool constructor.
      *
-     * @param bool $existent
+     * @param bool $present
      * @param bool|null $value
      */
-    protected function __construct(bool $existent, ?bool $value)
+    protected function __construct(bool $present, ?bool $value)
     {
-        $this->existent = $existent;
+        $this->present = $present;
         $this->value = $value;
     }
 
     /**
      * Get the value.
      *
-     * Note this will throw an exception if you try to get the value and it's NotPresent or null.
+     * Note this will throw an exception if you try to get the value and it's not present or null.
      *
      * So you have to check the value is present before getting the value.
      *
@@ -33,11 +35,11 @@ final class MaybeBool extends MaybeValue
     /**
      * Get the value, or return null if the value is non-existent or null.
      *
-     * @return array|null
+     * @return bool|null
      */
     public function getValueOrNull(): ?bool
     {
-        return $this->existent && $this->value !== null ? $this->value : null;
+        return $this->present && $this->value !== null ? $this->value : null;
     }
 
 }

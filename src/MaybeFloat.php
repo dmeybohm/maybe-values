@@ -2,24 +2,26 @@
 
 namespace Best\Maybe;
 
-final class MaybeFloat extends MaybeValue
+final class MaybeFloat implements MaybeValue
 {
+    use MaybeTrait;
+
     /**
-     * MaybeString constructor.
+     * MaybeFloat constructor.
      *
-     * @param bool $existent
+     * @param bool $present
      * @param float|null $value
      */
-    protected function __construct(bool $existent, ?float $value)
+    protected function __construct(bool $present, ?float $value)
     {
-        $this->existent = $existent;
+        $this->present = $present;
         $this->value = $value;
     }
 
     /**
      * Get the value.
      *
-     * Note this will throw an exception if you try to get the value and it's NotPresent or null.
+     * Note this will throw an exception if you try to get the value and it's not present or null.
      *
      * So you have to check the value is present before getting the value.
      *
@@ -37,7 +39,7 @@ final class MaybeFloat extends MaybeValue
      */
     public function getValueOrNull(): ?float
     {
-        return $this->existent && $this->value !== null ? $this->value : null;
+        return $this->present && $this->value !== null ? $this->value : null;
     }
 
 }
