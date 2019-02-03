@@ -19,15 +19,38 @@ An example:
 use Best\Maybe\MaybeString;
 $array = [
     'key' => 'string'
+    'null-key' => null,
 ];
 $maybeValue = MaybeString::fromArrayAndKey($array, 'key');
+$nullKey = MaybeString::fromArrayAndKey($array, 'null-key');
+$notPresent = MaybeString::fromArrayAndKey($array, 'not-present');
+
+if ($maybeValue->isPresent()) {
+    echo "Present: ", $maybeValue->getValue();
+}
+if ($notPresent->isMissing()) {
+    echo "Value is missing."
     
+if ($nullKey->isPresent()) {
+    echo "Null key is present. ->getValue() throws an exception here.\n";
+    echo "But ->getValueOrNull() returns null";
+    var_export($nullKey->getValueOrNull());
+}        
 ```
 
+## DB Usage Example
+
+A typical example for DB usage:
 
 ```php
-class DB {
-    private $pdo;
+interface DB {
+    // Save the field with the value. If the value is null, save null to the field.
+    public function saveField(int $id, $value);
+}
+
+class Model {
+    // @var DB
+    private $db;
     
     public function saveValues(int $id, MaybeString $nullableField) {
         if ($nullableField->isMissing()) {
