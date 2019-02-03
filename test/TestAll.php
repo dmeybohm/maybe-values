@@ -15,7 +15,7 @@ use Best\Maybe\MaybeValue;
 class TestAll extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @dataProvider provideValuesForFromArrayAndKey
+     * @dataProvider provideValues
      */
     public function testfromArrayAndKey(string $className, array $array, string $key, array $expected)
     {
@@ -36,7 +36,55 @@ class TestAll extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function provideValuesForFromArrayAndKey()
+    /**
+     * @dataProvider provideValues
+     */
+    public function testfromArrayAccesAndKey(string $className, array $array, string $key, array $expected)
+    {
+        $object = new \ArrayObject($array);
+
+        $maybeValue = $className::fromArrayAccessAndKey($object, $key);
+        /** @var MaybeValue $maybeValue */
+
+        $this->assertSame($expected['isPresentAndNotNull'], $maybeValue->isPresentAndNotNull());
+        $this->assertSame($expected['isMissing'], $maybeValue->isMissing());
+        $this->assertSame($expected['isMissingOrNull'], $maybeValue->isMissingOrNull());
+        $this->assertSame($expected['getValueOrNull'], $maybeValue->getValueOrNull());
+
+        if ($expected['getValue'] instanceof \Throwable) {
+            $this->expectException(get_class($expected['getValue']));
+            $maybeValue->getValue();
+
+        } else {
+            $this->assertSame($expected['getValue'], $maybeValue->getValue());
+        }
+    }
+
+    /**
+     * @dataProvider provideValues
+     */
+    public function testfromAObjectAndProperty(string $className, array $array, string $key, array $expected)
+    {
+        $object = (object)$array;
+
+        $maybeValue = $className::fromObjectAndProperty($object, $key);
+        /** @var MaybeValue $maybeValue */
+
+        $this->assertSame($expected['isPresentAndNotNull'], $maybeValue->isPresentAndNotNull());
+        $this->assertSame($expected['isMissing'], $maybeValue->isMissing());
+        $this->assertSame($expected['isMissingOrNull'], $maybeValue->isMissingOrNull());
+        $this->assertSame($expected['getValueOrNull'], $maybeValue->getValueOrNull());
+
+        if ($expected['getValue'] instanceof \Throwable) {
+            $this->expectException(get_class($expected['getValue']));
+            $maybeValue->getValue();
+
+        } else {
+            $this->assertSame($expected['getValue'], $maybeValue->getValue());
+        }
+    }
+
+    public function provideValues()
     {
         $file = fopen(__FILE__, 'r');
 
@@ -183,6 +231,95 @@ class TestAll extends \PHPUnit\Framework\TestCase
                     'isMissingOrNull' => false,
                     'getValueOrNull' => true,
                     'getValue' => true,
+                ],
+            ],
+
+        ];
+    }
+
+    /**
+     * @dataProvider provideLooseValues
+     */
+    public function testFilteredFactoryMethods($className, $methodName, $array, $key, $expected)
+    {
+        $maybeValue = $className::$methodName($array, $key);
+        /** @var MaybeValue $maybeValue */
+
+        $this->assertSame($expected['isPresentAndNotNull'], $maybeValue->isPresentAndNotNull());
+        $this->assertSame($expected['isMissing'], $maybeValue->isMissing());
+        $this->assertSame($expected['isMissingOrNull'], $maybeValue->isMissingOrNull());
+        $this->assertSame($expected['getValueOrNull'], $maybeValue->getValueOrNull());
+
+        if ($expected['getValue'] instanceof \Throwable) {
+            $this->expectException(get_class($expected['getValue']));
+            $maybeValue->getValue();
+
+        } else {
+            $this->assertSame($expected['getValue'], $maybeValue->getValue());
+        }
+    }
+
+    public function provideLooseValues()
+    {
+        return [
+            'bool true' => [
+                'className' => MaybeBool::class,
+                'methodName' => 'fromArrayAndKeyFiltered',
+                'array' => [
+                    'non-null' => '1',
+                ],
+                'key' => 'non-null',
+                'expected' => [
+                    'isPresentAndNotNull' => true,
+                    'isMissing' => false,
+                    'isMissingOrNull' => false,
+                    'getValueOrNull' => true,
+                    'getValue' => true,
+                ],
+            ],
+            'bool false' => [
+                'className' => MaybeBool::class,
+                'methodName' => 'fromArrayAndKeyFiltered',
+                'array' => [
+                    'non-null' => '0',
+                ],
+                'key' => 'non-null',
+                'expected' => [
+                    'isPresentAndNotNull' => true,
+                    'isMissing' => false,
+                    'isMissingOrNull' => false,
+                    'getValueOrNull' => false,
+                    'getValue' => false,
+                ],
+            ],
+            'int' => [
+                'className' => MaybeInt::class,
+                'methodName' => 'fromArrayAndKeyFiltered',
+                'array' => [
+                    'non-null' => '12',
+                ],
+                'key' => 'non-null',
+                'expected' => [
+                    'isPresentAndNotNull' => true,
+                    'isMissing' => false,
+                    'isMissingOrNull' => false,
+                    'getValueOrNull' => 12,
+                    'getValue' => 12,
+                ],
+            ],
+            'float' => [
+                'className' => MaybeFloat::class,
+                'methodName' => 'fromArrayAndKeyFiltered',
+                'array' => [
+                    'non-null' => '12.5',
+                ],
+                'key' => 'non-null',
+                'expected' => [
+                    'isPresentAndNotNull' => true,
+                    'isMissing' => false,
+                    'isMissingOrNull' => false,
+                    'getValueOrNull' => 12.5,
+                    'getValue' => 12.5,
                 ],
             ],
         ];

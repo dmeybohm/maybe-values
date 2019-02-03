@@ -41,5 +41,4 @@ final class MaybeObject implements MaybeValue
     {
         return $this->value;
     }
-
 }

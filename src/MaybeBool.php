@@ -5,6 +5,9 @@ namespace Best\Maybe;
 final class MaybeBool implements MaybeValue
 {
     use MaybeTrait;
+    use MaybeFilteredTrait;
+
+    private const FILTER_TYPE = FILTER_VALIDATE_BOOLEAN;
 
     /**
      * MaybeBool constructor.
@@ -41,5 +44,4 @@ final class MaybeBool implements MaybeValue
     {
         return $this->value;
     }
-
 }

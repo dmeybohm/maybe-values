@@ -5,6 +5,9 @@ namespace Best\Maybe;
 final class MaybeFloat implements MaybeValue
 {
     use MaybeTrait;
+    use MaybeFilteredTrait;
+
+    private const FILTER_TYPE = FILTER_VALIDATE_FLOAT;
 
     /**
      * MaybeFloat constructor.
@@ -41,5 +44,4 @@ final class MaybeFloat implements MaybeValue
     {
         return $this->value;
     }
-
 }

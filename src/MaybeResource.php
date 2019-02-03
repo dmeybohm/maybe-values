@@ -68,5 +68,4 @@ final class MaybeResource implements MaybeValue
             throw new \TypeError("Value must be a resource or null");
         }
     }
-
 }

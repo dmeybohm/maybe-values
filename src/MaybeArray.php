@@ -41,5 +41,4 @@ final class MaybeArray implements MaybeValue
     {
         return $this->value;
     }
-
 }

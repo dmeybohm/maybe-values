@@ -41,5 +41,4 @@ final class MaybeString implements MaybeValue
     {
         return $this->value;
     }
-
 }

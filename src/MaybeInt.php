@@ -5,6 +5,9 @@ namespace Best\Maybe;
 final class MaybeInt implements MaybeValue
 {
     use MaybeTrait;
+    use MaybeFilteredTrait;
+
+    private const FILTER_TYPE = FILTER_VALIDATE_INT;
 
     /**
      * MaybeInt constructor.
@@ -41,5 +44,4 @@ final class MaybeInt implements MaybeValue
     {
         return $this->value;
     }
-
 }

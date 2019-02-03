@@ -57,7 +57,7 @@ trait MaybeTrait
      *
      * @return static
      */
-    public static function fromArrayAccessibleAndKey(\ArrayAccess $arrayAccessible, $key): self
+    public static function fromArrayAccessAndKey(\ArrayAccess $arrayAccessible, $key): self
     {
         if ($arrayAccessible->offsetExists($key)) {
             return new static(true, $arrayAccessible[$key]);
@@ -130,6 +130,4 @@ trait MaybeTrait
     {
         return !$this->present;
     }
-
-
 }
