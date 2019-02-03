@@ -39,7 +39,7 @@ class DB {
 } 
 ```
 
-## Class Summary
+## Classes Summary
 
 * `MaybeArray` - an `array`
 * `MaybeBool` - a `bool`
@@ -47,7 +47,7 @@ class DB {
 * `MaybeFloat` - a `float`
 * `MaybeInt` - an `int`
 * `MaybeIterable` - any `iterable` 
-* `MaybeMixed` - any mixed value
+* `MaybeMixed` - any `mixed` value
 * `MaybeObject` - any `object` (e.g. `\stdClass`)
 * `MaybeResource` - a `resource`
 * `MaybeString` - a `string`
@@ -60,8 +60,15 @@ class DB {
 These methods create the `MaybeValue` subclasses
 
 #### public static function fromArrayAndKey(array $array, $key)
+
+Create a new `MaybeValue` from an array and a value at key.
+
 #### public static function fromArrayAccessibleAndKey(\ArrayAccess $arrayObject, $key)
+
+Create a new `MaybeValue` from an object implementing `\ArrayAccess` and a value at key.
+
 #### public static function fromObjectAndProperty(object $object, string $property)
+
 Create a new `MaybeValue` from an array and return it.
 
 ### Filtered Factory Methods
@@ -69,30 +76,40 @@ Create a new `MaybeValue` from an array and return it.
 Additionally, there are some methods that will use the `filter_var`
 function to convert values from a `string` to another type. 
 
+#### public static function fromArrayAndKeyFiltered(array $array, $key)
+#### public static function fromArrayAccessibleAndKeyFiltered(\ArrayAccess $arrayObject, $key)
+#### public static function fromObjectAndPropertyFiltered(object $object, string $property)
 
-### getValue(): T
+Similar to the non-filtered methods, except the value is passed through `filter_var`
+appropriate to the type (for example, `filter_var($value, FILTER_VALIDATE_INT)` is used
+for `MaybeInt`).
 
-Return the value the `Maybe*` class represents
 
-### getValueOrNull(): ?T
+### Other Methods
 
-Return the value the `Maybe*` class represents, or null if it was not present or was null.
-
-### isPresent(): bool
+#### isPresent(): bool
 
 Whether the value is present.
 
-*NOTE* this can still be true if the value is null.
+*NOTE* this can still be true if the value is `null`.
 
-### isMissing(): bool
+#### isMissing(): bool
 
 Whether the value is not present, so this is the inverse of `isPresent()`
 
-### isPresentAndNotNull(): bool
+#### getValue(): T
+
+Return the value the `Maybe*` class represents
+
+#### getValueOrNull(): ?T
+
+Return the value the `Maybe*` class represents, or null if it was not present or was null.
+
+#### isPresentAndNotNull(): bool
 
 Whether the value is present and not null.
 
-### isMissingOrNull(): bool
+#### isMissingOrNull(): bool
 
 Whether the value is missing or null.
 
