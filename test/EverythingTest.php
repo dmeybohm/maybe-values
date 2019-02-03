@@ -12,7 +12,7 @@ use Best\Maybe\MaybeResource;
 use Best\Maybe\MaybeString;
 use Best\Maybe\MaybeValue;
 
-class TestAll extends \PHPUnit\Framework\TestCase
+class EverythingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideValues
