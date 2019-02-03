@@ -74,15 +74,14 @@ Create a new `MaybeValue` from an array and return it.
 ### Filtered Factory Methods
 
 Additionally, there are some methods that will use the `filter_var`
-function to convert values from a `string` to another type. 
+function to convert values from a `string` to another type. The value is passed through `filter_var`
+appropriate to the type (for example, `filter_var($value, FILTER_VALIDATE_INT)` is used
+for `MaybeInt`).
 
 #### public static function fromArrayAndKeyFiltered(array $array, $key)
 #### public static function fromArrayAccessibleAndKeyFiltered(\ArrayAccess $arrayObject, $key)
 #### public static function fromObjectAndPropertyFiltered(object $object, string $property)
 
-Similar to the non-filtered methods, except the value is passed through `filter_var`
-appropriate to the type (for example, `filter_var($value, FILTER_VALIDATE_INT)` is used
-for `MaybeInt`).
 
 
 ### Other Methods
