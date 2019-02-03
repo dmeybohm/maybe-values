@@ -63,7 +63,7 @@ These methods create the `MaybeValue` subclasses
 
 Create a new `MaybeValue` from an array and a value at key.
 
-#### public static function fromArrayAccessibleAndKey(\ArrayAccess $arrayObject, $key)
+#### public static function fromArrayAccessAndKey(\ArrayAccess $arrayObject, $key)
 
 Create a new `MaybeValue` from an object implementing `\ArrayAccess` and a value at key.
 
@@ -79,7 +79,7 @@ appropriate to the type (for example, `filter_var($value, FILTER_VALIDATE_INT)` 
 for `MaybeInt`).
 
 #### public static function fromArrayAndKeyFiltered(array $array, $key)
-#### public static function fromArrayAccessibleAndKeyFiltered(\ArrayAccess $arrayObject, $key)
+#### public static function fromArrayAccessAndKeyFiltered(\ArrayAccess $arrayObject, $key)
 #### public static function fromObjectAndPropertyFiltered(object $object, string $property)
 
 
