@@ -13,7 +13,15 @@ can write code for anything which implements that interface, or as well create y
 own classes supporting that interface. If you do implement your own class, you can save time
 by using the `MaybeTrait`, which implements most of the functionality of the interface already.
  
-An example:
+## Installing
+
+```sh
+composer require best/maybe-values
+```
+
+## Examples
+
+Basic Usage:
 
 ```php
 use Best\Maybe\MaybeString;
@@ -37,8 +45,6 @@ if ($nullKey->isPresent()) {
     var_export($nullKey->getValueOrNull());
 }        
 ```
-
-## DB Usage Example
 
 A typical example for DB usage:
 
