@@ -136,4 +136,46 @@ Whether the value is present and not null.
 Whether the value is missing or null.
 
 
+## Extension Example
 
+Here's an example of an extension class you could implement, called `MaybeEmail`, which
+implements the `MaybeValue` interface, and takes emails. 
+
+It uses the `MaybeFilteredTrait` in addition to the `MaybeTrait` to copy some implementation.
+
+```php
+class MaybeEmail implements MaybeValue 
+{
+    use \Best\Maybe\MaybeTrait;
+    use \Best\Maybe\MaybeFiltereredTrait;
+    
+    // This constant is used by the MaybeFilteredTrait. The constructor will pass
+    // this through the `fitler_var` function, and if it doesn't pass, throw an exception.
+    const FILTER_TYPE = FILTER_VALIDATE_EMAIL;
+    
+    public function getValue(): string 
+    {
+        return $this->value;
+    }
+    
+    public function getValueOrNull(): ?string 
+    {
+        return $this->value;        
+    }
+}            
+
+$a = [
+    'returnAddress' => 'fooexample.com'
+    'invalidAddress' => 'bleep'
+];
+
+$maybeEmail = MaybeEmail::fromArrayAndKey($a, 'returnAddress');
+echo $maybeEmail->isPresent(), "\n";  // true
+echo $maybeEmail->isPresentAndNotNull(), "\n" // true
+
+$invalid = MaybeEmail::fromArrayAndKey($a, 'invalidAddress');
+echo $invalid->isPresent(), "\n"; // true
+echo $invalid->isPresentAndNotNull(), "\n" // false
+echo $maybeEmail->getValue(), "\n"; // throws exception:
+echo $maybeEmail->getValueOrNull(), "\n"; // returns null
+```
