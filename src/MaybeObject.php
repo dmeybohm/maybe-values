@@ -39,7 +39,7 @@ final class MaybeObject implements MaybeValue
      */
     public function getValueOrNull(): ?object
     {
-        return $this->present && $this->value !== null ? $this->value : null;
+        return $this->value;
     }
 
 }

@@ -39,7 +39,7 @@ final class MaybeInt implements MaybeValue
      */
     public function getValueOrNull(): ?int
     {
-        return $this->present && $this->value !== null ? $this->value : null;
+        return $this->value;
     }
 
 }

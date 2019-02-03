@@ -12,7 +12,7 @@ trait MaybeTrait
     protected $value;
 
     /**
-     * Whether the value was existent.
+     * Whether the value is present.
      *
      * @var bool
      */
@@ -26,21 +26,21 @@ trait MaybeTrait
     abstract public function getValue();
 
     /**
-     * Get the value, or return null if the value is NotPresent or null.
+     * Get the value, or return null if the value is not present or null.
      *
      * @return mixed
      */
     abstract public function getValueOrNull();
 
     /**
-     * Create a new MaybeValue an array and string key within it.
+     * Create a new MaybeValue from an array and string or int key within it.
      *
      * @param array $array
-     * @param string $key
+     * @param string|int $key
      *
      * @return static
      */
-    public static function fromArrayAndStringKey(array $array, string $key): self
+    public static function fromArrayAndKey(array $array, $key): self
     {
         if (array_key_exists($key, $array)) {
             return new static(true, $array[$key]);
@@ -50,17 +50,17 @@ trait MaybeTrait
     }
 
     /**
-     * Create a new MaybeValue from an array and int key within it.
+     * Create a new MaybeValue from an ArrayAccess object and key.
      *
-     * @param array $array
-     * @param int $key
+     * @param \ArrayAccess $arrayAccessible
+     * @param mixed $key
      *
-     * @return MaybeTrait
+     * @return static
      */
-    public static function fromArrayAndIntKey(array $array, int $key): self
+    public static function fromArrayAccessibleAndKey(\ArrayAccess $arrayAccessible, $key): self
     {
-        if (array_key_exists($key, $array)) {
-            return new static(true, $array[$key]);
+        if ($arrayAccessible->offsetExists($key)) {
+            return new static(true, $arrayAccessible[$key]);
         } else {
             return new static(false, null);
         }
@@ -83,7 +83,7 @@ trait MaybeTrait
     }
 
     /**
-     * Whether the value is NotPresent or null.
+     * Whether the value is not present or null.
      *
      * @return bool
      */
@@ -93,7 +93,7 @@ trait MaybeTrait
     }
 
     /**
-     * Whether the value is existent and not null.
+     * Whether the value is present and not null.
      *
      * @return bool
      */
@@ -113,7 +113,16 @@ trait MaybeTrait
     }
 
     /**
-     * Whether the value is NotPresent.
+     * Whether the value is present.
+     *
+     * @return bool
+     */
+    public function isPresent(): bool
+    {
+        return $this->present;
+    }
+    /**
+     * Whether the value is not present.
      *
      * @return bool
      */
@@ -122,13 +131,5 @@ trait MaybeTrait
         return !$this->present;
     }
 
-    /**
-     * Whether the value is existent.
-     *
-     * @return bool
-     */
-    public function isPresent(): bool
-    {
-        return $this->present;
-    }
+
 }

@@ -2,13 +2,13 @@
 
 `Maybe Values` are like nullable values, but with an additional associated
 field which indicates whether the key associated with the value was set
-in an array or object. This enable you to distinguish "present" from "null", which 
+in an array or object. This enables you to distinguish "present" from "null", which 
 can be helpful for example when saving a nullable field to a database. 
  
 Each `MaybeValue` has an associated type and a separate class (`MaybeString`, `MaybeInt`, etc).
 You can also use `MaybeMixed` for any sort of value, or `MaybeObject` for an object. 
 
-There is also a `MaybeValue` interface which all the `Maye*` classes implement, so you
+There is also a `MaybeValue` interface which all the `Maybe*` classes implement, so you
 can write code for anything which implements that interface, or as well create your
 own classes supporting that interface. If you do implement your own class, you can save time
 by using the `MaybeTrait`, which implements most of the functionality of the interface already.

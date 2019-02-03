@@ -39,7 +39,7 @@ final class MaybeBool implements MaybeValue
      */
     public function getValueOrNull(): ?bool
     {
-        return $this->present && $this->value !== null ? $this->value : null;
+        return $this->value;
     }
 
 }

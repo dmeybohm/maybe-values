@@ -39,7 +39,7 @@ final class MaybeString implements MaybeValue
      */
     public function getValueOrNull(): ?string
     {
-        return $this->present && $this->value !== null ? $this->value : null;
+        return $this->value;
     }
 
 }

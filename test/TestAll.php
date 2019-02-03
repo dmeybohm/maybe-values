@@ -2,72 +2,191 @@
 
 namespace Best\Maybe\Test;
 
+use Best\Maybe\MaybeBool;
+use Best\Maybe\MaybeCallable;
+use Best\Maybe\MaybeFloat;
+use Best\Maybe\MaybeInt;
+use Best\Maybe\MaybeIterable;
+use Best\Maybe\MaybeObject;
+use Best\Maybe\MaybeResource;
 use Best\Maybe\MaybeString;
+use Best\Maybe\MaybeValue;
 
 class TestAll extends \PHPUnit\Framework\TestCase
 {
-    public function testMaybeStringWithArray()
+    /**
+     * @dataProvider provideValuesForFromArrayAndKey
+     */
+    public function testfromArrayAndKey(string $className, array $array, string $key, array $expected)
     {
-        $array = [
-            'non-null' => 'non-null value',
-            'null' => null,
+        $maybeValue = $className::fromArrayAndKey($array, $key);
+        /** @var MaybeValue $maybeValue */
+
+        $this->assertSame($expected['isPresentAndNotNull'], $maybeValue->isPresentAndNotNull());
+        $this->assertSame($expected['isMissing'], $maybeValue->isMissing());
+        $this->assertSame($expected['isMissingOrNull'], $maybeValue->isMissingOrNull());
+        $this->assertSame($expected['getValueOrNull'], $maybeValue->getValueOrNull());
+
+        if ($expected['getValue'] instanceof \Throwable) {
+            $this->expectException(get_class($expected['getValue']));
+            $maybeValue->getValue();
+
+        } else {
+            $this->assertSame($expected['getValue'], $maybeValue->getValue());
+        }
+    }
+
+    public function provideValuesForFromArrayAndKey()
+    {
+        $file = fopen(__FILE__, 'r');
+
+        $closure = function () {
+        };
+
+        $stdClass = new \stdClass;
+
+        return [
+            'non-null' => [
+                'className' => MaybeString::class,
+                'array' => [
+                    'non-null' => 'value'
+                ],
+                'key' => 'non-null',
+                'expected' => [
+                    'isPresentAndNotNull' => true,
+                    'isMissing' => false,
+                    'isMissingOrNull' => false,
+                    'getValueOrNull' => 'value',
+                    'getValue' => 'value',
+                ],
+            ],
+            'with key and null' => [
+                'className' => MaybeString::class,
+                'array' => [
+                    'non-null' => null
+                ],
+                'key' => 'non-null',
+                'expected' => [
+                    'isPresentAndNotNull' => false,
+                    'isMissing' => false,
+                    'isMissingOrNull' => true,
+                    'getValueOrNull' => null,
+                    'getValue' => new \TypeError(),
+                ]
+            ],
+            'non-existent' => [
+                'className' => MaybeString::class,
+                'array' => [
+                ],
+                'key' => 'non-existent',
+                'expected' => [
+                    'isPresentAndNotNull' => false,
+                    'isMissing' => true,
+                    'isMissingOrNull' => true,
+                    'getValueOrNull' => null,
+                    'getValue' => new \TypeError(),
+                ]
+            ],
+            'resource' => [
+                'className' => MaybeResource::class,
+                'array' => [
+                    'non-null' => $file
+                ],
+                'key' => 'non-null',
+                'expected' => [
+                    'isPresentAndNotNull' => true,
+                    'isMissing' => false,
+                    'isMissingOrNull' => false,
+                    'getValueOrNull' => $file,
+                    'getValue' => $file,
+                ],
+            ],
+            'iterable' => [
+                'className' => MaybeIterable::class,
+                'array' => [
+                    'non-null' => ['an array']
+                ],
+                'key' => 'non-null',
+                'expected' => [
+                    'isPresentAndNotNull' => true,
+                    'isMissing' => false,
+                    'isMissingOrNull' => false,
+                    'getValueOrNull' => ['an array'],
+                    'getValue' => ['an array'],
+                ],
+            ],
+            'callable' => [
+                'className' => MaybeCallable::class,
+                'array' => [
+                    'non-null' => $closure
+                ],
+                'key' => 'non-null',
+                'expected' => [
+                    'isPresentAndNotNull' => true,
+                    'isMissing' => false,
+                    'isMissingOrNull' => false,
+                    'getValueOrNull' => $closure,
+                    'getValue' => $closure,
+                ],
+            ],
+            'object' => [
+                'className' => MaybeObject::class,
+                'array' => [
+                    'non-null' => $stdClass
+                ],
+                'key' => 'non-null',
+                'expected' => [
+                    'isPresentAndNotNull' => true,
+                    'isMissing' => false,
+                    'isMissingOrNull' => false,
+                    'getValueOrNull' => $stdClass,
+                    'getValue' => $stdClass,
+                ],
+            ],
+            'int' => [
+                'className' => MaybeInt::class,
+                'array' => [
+                    'non-null' => 1
+                ],
+                'key' => 'non-null',
+                'expected' => [
+                    'isPresentAndNotNull' => true,
+                    'isMissing' => false,
+                    'isMissingOrNull' => false,
+                    'getValueOrNull' => 1,
+                    'getValue' => 1,
+                ],
+            ],
+            'float' => [
+                'className' => MaybeFloat::class,
+                'array' => [
+                    'non-null' => 1.5
+                ],
+                'key' => 'non-null',
+                'expected' => [
+                    'isPresentAndNotNull' => true,
+                    'isMissing' => false,
+                    'isMissingOrNull' => false,
+                    'getValueOrNull' => 1.5,
+                    'getValue' => 1.5,
+                ],
+            ],
+            'bool' => [
+                'className' => MaybeBool::class,
+                'array' => [
+                    'non-null' => true
+                ],
+                'key' => 'non-null',
+                'expected' => [
+                    'isPresentAndNotNull' => true,
+                    'isMissing' => false,
+                    'isMissingOrNull' => false,
+                    'getValueOrNull' => true,
+                    'getValue' => true,
+                ],
+            ],
         ];
-
-        $nonNull = MaybeString::fromArrayAndStringKey($array, 'non-null');
-        $null = MaybeString::fromArrayAndStringKey($array, 'null');
-        $nonExistent = MaybeString::fromArrayAndStringKey($array, 'non-existent');
-
-        $this->assertSame(true, $nonNull->isPresentAndNotNull());
-        $this->assertSame(false, $nonNull->isMissing());
-        $this->assertSame(false, $nonNull->isMissingOrNull());
-        $this->assertSame('non-null value', $nonNull->getValue());
-        $this->assertSame('non-null value', $nonNull->getValueOrNull());
-
-        $this->assertSame(false, $null->isPresentAndNotNull());
-        $this->assertSame(false, $null->isMissing());
-        $this->assertSame(true, $null->isMissingOrNull());
-        $this->assertSame(null, $null->getValueOrNull());
-
-        $this->assertSame(false, $nonExistent->isPresentAndNotNull());
-        $this->assertSame(true, $nonExistent->isMissing());
-        $this->assertSame(true, $nonExistent->isMissingOrNull());
-        $this->assertSame(null, $nonExistent->getValueOrNull());
     }
 
-    public function testMaybeStringWithObject()
-    {
-        $object = new \stdClass;
-        $object->nonNull = 'non-null value';
-        $object->null = null;
-
-        $nonNull = MaybeString::fromObjectAndProperty($object, 'nonNull');
-        $null = MaybeString::fromObjectAndProperty($object, 'null');
-        $nonExistent = MaybeString::fromObjectAndProperty($object, 'non-existent');
-
-        $this->assertSame(true, $nonNull->isPresentAndNotNull());
-        $this->assertSame(false, $nonNull->isMissing());
-        $this->assertSame(false, $nonNull->isMissingOrNull());
-        $this->assertSame('non-null value', $nonNull->getValue());
-        $this->assertSame('non-null value', $nonNull->getValueOrNull());
-
-        $this->assertSame(false, $null->isPresentAndNotNull());
-        $this->assertSame(false, $null->isMissing());
-        $this->assertSame(true, $null->isMissingOrNull());
-        $this->assertSame(null, $null->getValueOrNull());
-
-        $this->assertSame(false, $nonExistent->isPresentAndNotNull());
-        $this->assertSame(true, $nonExistent->isMissing());
-        $this->assertSame(true, $nonExistent->isMissingOrNull());
-        $this->assertSame(null, $nonExistent->getValueOrNull());
-    }
-
-    public function testMaybeStringThrowsExceptionWhenGettingValueOfMissing()
-    {
-    }
-
-    public function testMaybeStringThrowsExceptionWhenGettingValueOfNull()
-    {
-
-    }
 
 }

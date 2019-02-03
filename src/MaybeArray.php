@@ -39,7 +39,7 @@ final class MaybeArray implements MaybeValue
      */
     public function getValueOrNull(): ?array
     {
-        return $this->present && $this->value !== null ? $this->value : null;
+        return $this->value;
     }
 
 }

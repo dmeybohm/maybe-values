@@ -41,7 +41,7 @@ final class MaybeResource implements MaybeValue
     public function getValueOrNull()
     {
         $this->checkIsResourceOrNull();
-        return $this->present && $this->value !== null ? $this->value : null;
+        return $this->value;
     }
 
     /**

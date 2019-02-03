@@ -5,32 +5,32 @@ namespace Best\Maybe;
 interface MaybeValue
 {
     /**
-     * Get the value. Throws an exception if the value is an unexpected type, or is null.
-     *
-     * @return mixed
-     */
-    public function getValue();
-
-    /**
-     * Get the value, or return null if the value is not present or null.
-     *
-     * @return mixed
-     */
-    public function getValueOrNull();
-
-    /**
-     * Whether the value is NotPresent or null.
+     * Whether the value is present. The value may still be null.
      *
      * @return bool
      */
-    public function isMissingOrNull(): bool;
+    public function isPresent(): bool;
 
     /**
-     * Whether the value is existent and not null.
+     * Whether the value is present and not null.
      *
      * @return bool
      */
     public function isPresentAndNotNull(): bool;
+
+    /**
+     * Whether the value is not present. This is the inverse of "present".
+     *
+     * @return bool
+     */
+    public function isMissing(): bool;
+
+    /**
+     * Whether the value is not present or null.
+     *
+     * @return bool
+     */
+    public function isMissingOrNull(): bool;
 
     /**
      * Whether the value is null.
@@ -40,16 +40,20 @@ interface MaybeValue
     public function isNull(): bool;
 
     /**
-     * Whether the value is NotPresent.
+     * Get the value.
      *
-     * @return bool
+     * Throws a TypeError if the value is an unexpected type, or is null.
+     *
+     * @return mixed
      */
-    public function isMissing(): bool;
+    public function getValue();
 
     /**
-     * Whether the value is existent.
+     * Get the value, or return null if the value is not present or null.
      *
-     * @return bool
+     * Throws a TypeError if the value is an unexpected type.
+     *
+     * @return mixed
      */
-    public function isPresent(): bool;
+    public function getValueOrNull();
 }

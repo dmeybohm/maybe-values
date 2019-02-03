@@ -39,7 +39,7 @@ final class MaybeFloat implements MaybeValue
      */
     public function getValueOrNull(): ?float
     {
-        return $this->present && $this->value !== null ? $this->value : null;
+        return $this->value;
     }
 
 }
