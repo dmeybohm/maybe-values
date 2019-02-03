@@ -144,7 +144,9 @@ implements the `MaybeValue` interface, and takes emails.
 It uses the `MaybeFilteredTrait` in addition to the `MaybeTrait` to copy some implementation.
 
 ```php
-class MaybeEmail implements MaybeValue 
+namespace MyApp;
+
+class MaybeEmail implements \Best\Maybe\MaybeValue 
 {
     use \Best\Maybe\MaybeTrait;
     use \Best\Maybe\MaybeFiltereredTrait;
