@@ -178,6 +178,6 @@ echo $maybeEmail->isPresentAndNotNull(), "\n" // true
 $invalid = MaybeEmail::fromArrayAndKey($a, 'invalidAddress');
 echo $invalid->isPresent(), "\n"; // true
 echo $invalid->isPresentAndNotNull(), "\n" // false
-echo $maybeEmail->getValue(), "\n"; // throws exception:
-echo $maybeEmail->getValueOrNull(), "\n"; // returns null
+echo $invalid->getValue(), "\n"; // throws exception:
+echo $invalid->getValueOrNull(), "\n"; // returns null
 ```
